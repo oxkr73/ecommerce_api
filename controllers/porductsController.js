@@ -12,10 +12,10 @@ let productsController = {
   },
   getOne: (req, res) => {
     Products.findOne({ sku: req.params.sku })
-      .then(products => {
-        console.log(products);
-        if (products != null) {
-          res.json(products);
+      .then(product => {
+        console.log(product);
+        if (product != null) {
+          res.json(product);
         } else {
           res.send("Error de sku");
         }
@@ -27,7 +27,6 @@ let productsController = {
 
     Products.create(product)
       .then(product => {
-        console.log(product);
         res.json(product);
       })
       .catch(console.error.bind(console, "error: "));
@@ -35,9 +34,9 @@ let productsController = {
   delete: (req, res) => {
     Products.deleteOne({ sku: req.params.sku })
       .then(products => {
-        console.log(products);
-        if (products != null) {
-          res.json(products);
+        console.log(product);
+        if (product != null) {
+          res.json(product);
         } else {
           res.send("Error de sku");
         }

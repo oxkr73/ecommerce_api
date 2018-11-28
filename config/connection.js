@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-
 const connectionDB = mongoose
   .connect(
     "mongodb://localhost/e-commerce",
