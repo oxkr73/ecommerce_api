@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const productsList = require("./productsListSchema");
+const productsListSchema = require("./productsListSchema");
 
 const cartsSchema = new Schema({
   date: {
@@ -12,7 +12,11 @@ const cartsSchema = new Schema({
     type: String,
     default: "add_to_cart"
   },
-  prod_list: [productsList]
+  user_id: {
+    type: mongoose.Schema.ObjectId,
+    required: true
+  },
+  prod_list: [productsListSchema]
 });
 
 const Carts = mongoose.model("carts", cartsSchema);
