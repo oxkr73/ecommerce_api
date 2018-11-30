@@ -7,6 +7,8 @@ router.get("/products", productsController.getAll);
 
 router.get("/products/:sku", productsController.getOne);
 
+router.get("/products/category/:category", productsController.getAllByCategory);
+
 router.post("/products", productsController.create);
 
 router.put("/products/:sku", productsController.updateOne);

@@ -13,7 +13,6 @@ let productsController = {
   getOne: (req, res) => {
     Products.findOne({ sku: req.params.sku })
       .then(product => {
-        console.log(product);
         if (product != null) {
           res.json(product);
         } else {
@@ -21,6 +20,17 @@ let productsController = {
         }
       })
       .catch(console.error.bind(console, "error: "));
+  },
+  getAllByCategory: (req, res) => {
+    Products.find({ categories: { $in: [req.params.category] } })
+      .then(products => {
+        if (products != null) {
+          res.json(products);
+        } else {
+          res.send("No se ha encontrado ningun producto");
+        }
+      })
+      .catch(err => console.log(err));
   },
   create: (req, res) => {
     const product = new Products(req.body);
