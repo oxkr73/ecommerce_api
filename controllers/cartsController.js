@@ -5,7 +5,6 @@ let cartsController = {
   getUserCarts: (req, res) => {
     Carts.find({ user_id: req.params.id })
       .then(cart => {
-        //console.log(cart);
         if (cart != null) {
           res.json(cart);
         } else {
@@ -19,7 +18,6 @@ let cartsController = {
   getCart: (req, res) => {
     Carts.findOne({ _id: req.params.id })
       .then(cart => {
-        //console.log(cart);
         if (cart != null) {
           res.json(cart);
         } else {
@@ -39,6 +37,38 @@ let cartsController = {
       .catch(err => {
         res.send(err.message);
       });
+  },
+  updateCart: (req, res) => {
+    const updateData = req.body;
+    Carts.findOneAndUpdate(
+      { _id: req.params.id },
+      { $set: updateData },
+      {
+        new: true
+      }
+    )
+      .then(cart => {
+        if (cart != null) {
+          res.json(cart);
+        } else {
+          res.send("ID error. This cart doesn't exist yet");
+        }
+      })
+      .catch(err => {
+        res.send(err.message);
+      });
+  },
+  deleteCart: (req, res) => {
+    Carts.deleteOne({ _id: req.params.id })
+      .then(products => {
+        console.log(cart);
+        if (cart != null) {
+          res.json(cart);
+        } else {
+          res.send("ID Error. This cart doesn't exist");
+        }
+      })
+      .catch(err => console.log(err.message));
   }
 };
 

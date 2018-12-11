@@ -12,4 +12,6 @@ app.use("/", productsRoutes);
 app.use("/", usersRoutes);
 app.use("/", cartsRoutes);
 
-app.listen(3000);
+app.listen(3000, () => {
+  console.log("Listening in port 3000");
+});

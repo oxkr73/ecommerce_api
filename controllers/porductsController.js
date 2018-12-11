@@ -21,8 +21,20 @@ let productsController = {
       })
       .catch(console.error.bind(console, "error: "));
   },
+  getOneById: (req, res) => {
+    Products.findOne({ _id: req.params.id })
+      .then(product => {
+        if (product != null) {
+          res.json(product);
+        } else {
+          res.send("Error de sku");
+        }
+      })
+      .catch(console.error.bind(console, "error: "));
+  },
   getAllByCategory: (req, res) => {
-    Products.find({ categories: { $in: [req.params.category] } })
+    Products.find({ categories: req.params.category })
+      .populate("categories")
       .then(products => {
         if (products != null) {
           res.json(products);
@@ -31,6 +43,17 @@ let productsController = {
         }
       })
       .catch(err => console.log(err));
+  },
+  getCatalog: (req, res) => {
+    Products.find({ catalogs: { $in: [req.params.catalog] } })
+      .then(products => {
+        if (products != null) {
+          res.json(products);
+        } else {
+          res.send("No se han encontrado productos en este catálogo");
+        }
+      })
+      .catch();
   },
   create: (req, res) => {
     const product = new Products(req.body);
@@ -42,7 +65,7 @@ let productsController = {
       .catch(console.error.bind(console, "error: "));
   },
   delete: (req, res) => {
-    Products.deleteOne({ sku: req.params.sku })
+    Products.deleteOne({ _id: req.params.id })
       .then(products => {
         console.log(product);
         if (product != null) {
@@ -55,7 +78,7 @@ let productsController = {
   },
   updateOne: (req, res) => {
     const updateData = req.body;
-    Products.findOneAndUpdate({ sku: req.params.sku }, updateData, {
+    Products.findOneAndUpdate({ _id: req.params.id }, updateData, {
       new: true
     })
       .then(product => {

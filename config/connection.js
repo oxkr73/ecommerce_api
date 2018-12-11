@@ -4,7 +4,7 @@ const connectionDB = mongoose
     "mongodb://localhost/e-commerce",
     { useNewUrlParser: true }
   )
-  .then(() => console.log("connection established"))
+  .then(() => console.log("connection to DB established"))
   .catch(console.error.bind(console, "error: "));
 
 exports = connectionDB;
