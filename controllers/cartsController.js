@@ -60,8 +60,7 @@ let cartsController = {
   },
   deleteCart: (req, res) => {
     Carts.deleteOne({ _id: req.params.id })
-      .then(products => {
-        console.log(cart);
+      .then(cart => {
         if (cart != null) {
           res.json(cart);
         } else {

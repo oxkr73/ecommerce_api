@@ -1,7 +1,8 @@
+const config = require("./config");
 const mongoose = require("mongoose");
 const connectionDB = mongoose
   .connect(
-    "mongodb://localhost/e-commerce",
+    config.db,
     { useNewUrlParser: true }
   )
   .then(() => console.log("connection to DB established"))

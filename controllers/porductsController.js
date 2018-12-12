@@ -5,7 +5,7 @@ let productsController = {
   getAll: (req, res) => {
     Products.find({})
       .then(products => {
-        console.log(products);
+        console.log(`Hay ${products.length} productos`);
         res.json(products);
       })
       .catch(console.error.bind(console, "error: "));
@@ -66,8 +66,7 @@ let productsController = {
   },
   delete: (req, res) => {
     Products.deleteOne({ _id: req.params.id })
-      .then(products => {
-        console.log(product);
+      .then(product => {
         if (product != null) {
           res.json(product);
         } else {
