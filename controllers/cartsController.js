@@ -39,19 +39,54 @@ let cartsController = {
       });
   },
   updateCart: (req, res) => {
-    const updateData = req.body;
-    Carts.findOneAndUpdate(
-      { _id: req.params.id },
-      { $set: updateData },
-      {
-        new: true
-      }
-    )
+    const updateData = req.body.prod_list[0];
+
+    //Buscamos un carrito por su id
+    Carts.findOne({
+      _id: req.params.id
+    })
       .then(cart => {
         if (cart != null) {
-          res.json(cart);
+          let updatedCart = cart.prod_list;
+          let productExist = false;
+
+          //Solo si el producto que se le pasa existe, actualizamos su contenido
+          for (const product of updatedCart) {
+            if (product._id == updateData._id) {
+              product.qty = updateData.qty;
+              product.price = updateData.price;
+              productExist = true;
+            }
+          }
+
+          if (!productExist) {
+            updatedCart.push(updateData);
+          }
+
+          //Actualizamos el carrito entero
+          Carts.findOneAndUpdate(
+            {
+              _id: req.params.id
+            },
+            { $set: { prod_list: updatedCart } },
+            {
+              new: true
+            }
+          )
+            .then(cart => {
+              if (cart != null) {
+                res.json(cart);
+              } else {
+                res.send("ID error. This cart doesn't exist yet");
+              }
+            })
+            .catch(err => {
+              res.send(err.message);
+            });
+
+          //res.json(cart);
         } else {
-          res.send("ID error. This cart doesn't exist yet");
+          res.send("ID error. This cart doesn't exist");
         }
       })
       .catch(err => {

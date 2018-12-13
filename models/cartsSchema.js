@@ -10,8 +10,7 @@ const cartsSchema = new Schema({
   },
   state: {
     type: String,
-    //default: "add_to_cart",
-    required: true
+    default: "add_to_cart"
   },
   user_id: {
     type: mongoose.Schema.ObjectId,
