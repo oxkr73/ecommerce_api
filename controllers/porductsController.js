@@ -23,9 +23,14 @@ let productsController = {
   },
   getOneById: (req, res) => {
     Products.findOne({ _id: req.params.id })
+      .populate("categories")
       .then(product => {
         if (product != null) {
-          res.json(product);
+          res.json({
+            Breadcrumb:
+              product.categories.ancestors + "," + product.categories.name,
+            Product: product
+          });
         } else {
           res.send("Error de sku");
         }

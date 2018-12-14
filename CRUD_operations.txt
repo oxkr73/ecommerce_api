@@ -1,0 +1,102 @@
+
+CRUD para el Usuario
+GET un usuario por su email:  (autorización necesaria)
+http://localhost:3000/users/oscar@oscar.es
+
+POST registro de usuario: 
+(usuario de ejemplo no introducido. El email debe ser único, si no devuelve un error )
+http://localhost:3000/users/signup
+{
+	"name" : "Peter",
+   	"surname" : "Parker",
+    	"email" : "spiderman@hero.com",
+    	"password": "1234"
+}
+
+POST login de usuario: (usuario de ejemplo activado)
+http://localhost:3000/users/signup
+{
+    "email" : "batman@hero.com",
+    "password": "1234"
+}
+
+CRUD para el Carrito
+POST un carrito nuevo:  (autorización necesaria)
+http://localhost:3000/cart/
+{
+"user_id": "5bdecb4c948557695b6fe5b3",
+        "prod_list": [
+        {
+            "_id" : "5c011d9542b08e3ac4ca2de1",
+            "sku" : "P4000",
+            "qty" : 1,
+            "price" : 10
+        }
+]
+}
+
+PUT un carrito existente:  (autorización necesaria)
+(añadimos un producto nuevo o si ya existe modificamos sus valores)
+http://localhost:3000/cart/5bffcbd3e6838e35488ebd6a
+{
+    "user_id": "5bdecb4c948557695b6fe5b3",
+    "prod_list": [
+        {
+            "_id" : "5c011d9542b08e3ac4ca2de1",
+            "sku" : "P4000",
+            "qty" : 10,
+            "price" : 10
+        }
+    ]
+}
+
+GET un carrito por su id:  (autorización NO necesaria)
+http://localhost:3000/cart/5c0f8924860dd925c0aba1e3
+
+GET los carritos de un Usuario:   (autorización NO necesaria)
+http://localhost:3000/cart/user/5bdecb4c948557695b6fe5b3
+
+DELETE carrito por su id:   (autorización necesaria)
+(cambia el estado a "deleted")
+http://localhost:3000/cart/delete/5c0f8924860dd925c0aba1e3
+
+PUT checkout de carrito por su id:   (autorización necesaria)
+(cambia el estado a "paid")
+http://localhost:3000/cart/checkout/5c0f8924860dd925c0aba1e3
+
+CRUD para el Producto
+GET todos los productos:   (autorización NO necesaria)
+http://localhost:3000/products
+
+GET un producto por su SKU:  (autorización NO necesaria)
+http://localhost:3000/products/P0001
+
+GET un producto por su ID:   (autorización NO necesaria)
+ (devuelve un breadcrumb + un productos con todos sus datos)
+http://localhost:3000/products/id/5c0f8ee970d97014c42a679f
+
+GET los productos de una categoria (hats):   (autorización NO necesaria)
+http://localhost:3000/products/category/5c0e41a016be4c286673274b
+
+GET los productos de un catálogo (xmas): (autorización NO necesaria)
+http://localhost:3000/products/catalog/xmas
+
+POST un producto nuevo:  (autorización necesaria)
+http://localhost:3000/products/
+{
+	"sku": "P4000",
+	"name": "gafas de sol",
+	"price": 49,
+	"qty": 25,
+	"categories": "5c0e41a016be4c286673274c"
+}
+
+PUT producto por ID: (autorización necesaria)
+http://localhost:3000/products/id/5c0f8ee970d97014c42a679f
+{
+	"name": "gafas solares",
+	"price": 19
+}
+
+DELETE producto por ID: (autorización necesaria)
+http://localhost:3000/products/id/5c0f8ee970d97014c42a679f

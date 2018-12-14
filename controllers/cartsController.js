@@ -94,7 +94,7 @@ let cartsController = {
       });
   },
   deleteCart: (req, res) => {
-    Carts.deleteOne({ _id: req.params.id })
+    Carts.updateOne({ _id: req.params.id }, { state: "deleted" })
       .then(cart => {
         if (cart != null) {
           res.json(cart);
@@ -103,6 +103,27 @@ let cartsController = {
         }
       })
       .catch(err => console.log(err.message));
+  },
+  checkoutCart: (req, res) => {
+    //obtenemos un Cart activo
+    Carts.findOne({ _id: req.params.id })
+      .then(cart => {
+        if (cart.state == "deleted" || cart.state == "paid") {
+          throw new Error("This cart it's out of order");
+        } else {
+          //si hemos conseguido pagar, cambiamos su estado para mantener una copia
+          Carts.updateOne({ _id: req.params.id }, { state: "paid" }).then(
+            cart => {
+              if (cart != null) {
+                res.json(cart);
+              } else {
+                res.send("ID Error. This cart doesn't exist");
+              }
+            }
+          );
+        }
+      })
+      .catch(err => res.send(err.message));
   }
 };
 

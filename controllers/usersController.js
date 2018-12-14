@@ -25,6 +25,12 @@ let usersController = {
         res.send({ token: service.createToken(user) });
       })
       .catch(err => {
+        console.log(err);
+        if (err.code === 11000) {
+          res.send(
+            `Error de email. ${req.body.email} ya existe. Utiliza otro distinto`
+          );
+        }
         res.send(err.message);
       });
   },
